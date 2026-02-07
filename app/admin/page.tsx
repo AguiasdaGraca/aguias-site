@@ -1,66 +1,74 @@
 "use client";
+
 import { useState } from "react";
+import { supabase } from "../lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleLogin(e: any) {
-    e.preventDefault();
-    alert("Login ainda não ligado à base de dados 🙂");
+  async function handleLogin() {
+    // limpar espaços invisíveis (muito importante!)
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+
+    // validações básicas para evitar erros
+    if (!cleanEmail || !cleanPassword) {
+      alert("Preenche email e password 🙂");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: cleanPassword,
+      });
+
+      console.log("LOGIN RESPONSE:", data, error);
+
+      if (error) {
+        alert("Erro Supabase: " + error.message);
+        return;
+      }
+
+      alert("Login com sucesso 🎉");
+      router.push("/admin/dashboard");
+    } catch (err) {
+      console.error("ERRO GRAVE:", err);
+      alert("Erro inesperado 😢");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "#111",
-      color: "white",
-      fontFamily: "Arial"
-    }}>
-      <form
-        onSubmit={handleLogin}
-        style={{
-          background: "#222",
-          padding: 40,
-          borderRadius: 12,
-          width: 320
-        }}
-      >
-        <h1 style={{ textAlign: "center" }}>Área Administrador</h1>
+    <main style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>Área Administrador</h1>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-          style={{ width:"100%", padding:10, marginTop:20 }}
-        />
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ display: "block", marginBottom: "10px", padding: "8px" }}
+      />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e)=>setPassword(e.target.value)}
-          style={{ width:"100%", padding:10, marginTop:10 }}
-        />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{ display: "block", marginBottom: "10px", padding: "8px" }}
+      />
 
-        <button
-          type="submit"
-          style={{
-            width:"100%",
-            padding:12,
-            marginTop:20,
-            background:"#f5c400",
-            border:"none",
-            fontWeight:"bold"
-          }}
-        >
-          Entrar
-        </button>
-      </form>
+      <button onClick={handleLogin} disabled={loading}>
+        {loading ? "A entrar..." : "Entrar"}
+      </button>
     </main>
   );
 }

@@ -1,18 +1,28 @@
 export default function Home() {
   return (
-    <main style={{ 
-      padding: "40px", 
-      fontFamily: "Arial",
-      textAlign: "center"
-    }}>
-      <h1>AD Águias da Graça F.C.</h1>
-      <h2>Bem-vindos ao site oficial</h2>
+    <section className="hero">
+      <div className="badge">⚽ Site oficial • Em construção</div>
 
+      <h1>AD Águias da Graça F.C.</h1>
       <p>
-        Clube de futebol, formação e comunidade.
+        Clube de futebol, formação e comunidade. Aqui vais encontrar notícias,
+        equipas, informações do clube e contactos.
       </p>
 
-      <p>Site em construção 🚧</p>
-    </main>
+      <div className="grid">
+        <div className="card">
+          <h3>Notícias</h3>
+          <p>Atualizações e comunicados do clube.</p>
+        </div>
+        <div className="card">
+          <h3>Equipas</h3>
+          <p>Escalões, plantéis e calendário.</p>
+        </div>
+        <div className="card">
+          <h3>Clube</h3>
+          <p>História, missão e estrutura.</p>
+        </div>
+      </div>
+    </section>
   );
 }

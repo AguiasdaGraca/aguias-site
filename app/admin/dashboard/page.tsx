@@ -1,25 +1,51 @@
+"use client";
+
+import { useState } from "react";
+import { supabase } from "../../lib/supabaseClient";
+
 export default function Dashboard() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  async function handleSave() {
+    const { error } = await supabase.from("posts").insert([
+      {
+        title: title,
+        content: content,
+      },
+    ]);
+
+    if (error) {
+      alert("Erro a guardar 😢");
+      console.log(error);
+      return;
+    }
+
+    alert("Notícia guardada 🎉");
+
+    setTitle("");
+    setContent("");
+  }
+
   return (
     <main style={{ padding: "40px", fontFamily: "Arial" }}>
-      <h1>Dashboard - Área Administrador</h1>
+      <h1>Painel Admin</h1>
 
-      <hr style={{ margin: "20px 0" }} />
+      <input
+        placeholder="Título da notícia"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        style={{ display: "block", marginBottom: "10px", width: "300px" }}
+      />
 
-      <h2>Gestão de Sócios</h2>
-      <ul>
-        <li>➕ Adicionar sócio</li>
-        <li>📄 Lista de sócios</li>
-        <li>💰 Registar pagamento</li>
-        <li>⚠️ Sócios em dívida</li>
-      </ul>
+      <textarea
+        placeholder="Conteúdo"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        style={{ display: "block", marginBottom: "10px", width: "300px", height: "120px" }}
+      />
 
-      <hr style={{ margin: "20px 0" }} />
-
-      <h2>Eventos e Comunidade</h2>
-      <ul>
-        <li>🏆 Torneio de Verão</li>
-        <li>📅 Criar evento</li>
-      </ul>
+      <button onClick={handleSave}>Guardar notícia</button>
     </main>
-  )
+  );
 }
