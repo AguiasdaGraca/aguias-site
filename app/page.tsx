@@ -1,28 +1,41 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
-    <section className="hero">
-      <div className="badge">⚽ Site oficial • Em construção</div>
+    <main
+      style={{
+        height: "70vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
+    >
+      <div>
+        <h1 style={{ fontSize: "42px", marginBottom: 10 }}>
+          Área Reservada
+        </h1>
 
-      <h1>AD Águias da Graça F.C.</h1>
-      <p>
-        Clube de futebol, formação e comunidade. Aqui vais encontrar notícias,
-        equipas, informações do clube e contactos.
-      </p>
+        <p style={{ opacity: 0.7, marginBottom: 30 }}>
+          Sistema interno de gestão de sócios
+        </p>
 
-      <div className="grid">
-        <div className="card">
-          <h3>Notícias</h3>
-          <p>Atualizações e comunicados do clube.</p>
-        </div>
-        <div className="card">
-          <h3>Equipas</h3>
-          <p>Escalões, plantéis e calendário.</p>
-        </div>
-        <div className="card">
-          <h3>Clube</h3>
-          <p>História, missão e estrutura.</p>
-        </div>
+        <Link href="/admin">
+          <button
+            style={{
+              padding: "14px 28px",
+              fontSize: "16px",
+              borderRadius: "10px",
+              background: "#ffd200",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            Entrar
+          </button>
+        </Link>
       </div>
-    </section>
+    </main>
   );
 }
