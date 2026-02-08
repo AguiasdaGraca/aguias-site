@@ -1,6 +1,10 @@
+import "./globals.css";
 import type { ReactNode } from "react";
-import AdminShell from "./AdminShell";
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  return <AdminShell>{children}</AdminShell>;
-}
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="pt">
+      <body>{children}</body>
+    </html>
+  );
+}}
