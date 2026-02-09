@@ -1,10 +1,17 @@
 import "./globals.css";
-import type { ReactNode } from "react";
+import Navbar from "./components/Navbar";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
