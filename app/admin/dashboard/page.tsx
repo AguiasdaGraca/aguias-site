@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabaseClient";
+import { createClient } from "../..//lib/supabaseClient";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
