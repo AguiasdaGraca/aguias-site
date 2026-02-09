@@ -1,23 +1,11 @@
 export default function LoginPage() {
   return (
-    <main style={{ 
-      minHeight: "100vh",
-      display: "grid",
-      placeItems: "center"
-    }}>
-      <div style={{ width: 320 }}>
-        <h1>Admin Login</h1>
+    <main style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
+      <div style={{ width: 300 }}>
+        <h1>Login Admin</h1>
 
-        <input
-          placeholder="Email"
-          style={{ width: "100%", padding: 10, marginTop: 20 }}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          style={{ width: "100%", padding: 10, marginTop: 10 }}
-        />
+        <input placeholder="Email" style={{ width: "100%", padding: 10, marginTop: 10 }} />
+        <input placeholder="Password" type="password" style={{ width: "100%", padding: 10, marginTop: 10 }} />
 
         <button
           style={{
