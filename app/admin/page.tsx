@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { supabase } from "../lib/supabaseClient";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function AdminLogin() {
     const cleanPassword = password.trim();
 
     if (!cleanEmail || !cleanPassword) {
-      alert("Preenche email e password 😬");
+      alert("Preenche email e password 🙃");
       return;
     }
 
@@ -36,13 +36,8 @@ export default function AdminLogin() {
       }
 
       alert("Login com sucesso 🎉");
-
-      // 👉 navega para o dashboard
       router.push("/admin/dashboard");
-
-      // 👉 força o Next a reavaliar layouts/proteções
-      router.refresh();
-
+      router.refresh(); // ✅ força re-render / revalidação
     } catch (err) {
       console.error("ERRO GRAVE:", err);
       alert("Erro inesperado 😵");

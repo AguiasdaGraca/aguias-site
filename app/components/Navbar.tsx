@@ -6,13 +6,12 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathname = usePathname();
 
-  // estamos numa página do admin?
-  const isAdmin = pathname.startsWith("/admin");
+  // Esconde no ecrã principal e em toda a área /admin
+  if (pathname === "/" || pathname.startsWith("/admin")) return null;
 
   return (
     <header className="navbar">
       <div className="container navbarInner">
-        {/* LOGO */}
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <img
             src="/logo.jpg"
@@ -22,13 +21,9 @@ export default function Navbar() {
           <strong>AD Águias da Graça FC</strong>
         </div>
 
-        {/* MENU */}
-        <nav style={{ display: "flex", gap: 20 }}>
+        <nav style={{ display: "flex", gap: 16 }}>
           <Link href="/">Início</Link>
           <Link href="/socios">Sócios</Link>
-
-          {/* mostrar link Admin apenas fora do admin */}
-          {!isAdmin && <Link href="/admin">Admin</Link>}
         </nav>
       </div>
     </header>

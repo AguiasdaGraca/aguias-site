@@ -1,5 +1,9 @@
 import "./globals.css";
-import Navbar from "./components/Navbar";
+
+export const metadata = {
+  title: "AD Águias da Graça FC",
+  description: "Site oficial",
+};
 
 export default function RootLayout({
   children,
@@ -8,10 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body>
-        <Navbar />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
-}
+} 
