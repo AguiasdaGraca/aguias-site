@@ -33,3 +33,5 @@ export default function Navbar() {
     </header>
   );
 }
+const isAdmin = pathname.startsWith("/admin");
+

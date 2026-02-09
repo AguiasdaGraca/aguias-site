@@ -10,7 +10,7 @@ export default function Home() {
           Sistema interno de gestão de sócios
         </p>
 
-        <Link href="/admin/login">
+        <Link href="/admin">
           <button
             style={{
               padding: "14px 28px",
