@@ -1,22 +1,44 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
-import { createClient } from "../lib/supabaseClient";
-import { redirect } from "next/navigation";
+import { supabase } from "../lib/supabaseClient";
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const supabase = createClient();
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  useEffect(() => {
+    let mounted = true;
 
-  // 🔒 Proteção do admin
-  if (!session) {
-    redirect("/admin");
-  }
+    async function checkSession() {
+      const { data } = await supabase.auth.getSession();
+      const session = data.session;
+
+      // Se não tiver sessão e não estiver no /admin (login), manda para /admin
+      if (!session && window.location.pathname !== "/admin") {
+        router.replace("/admin");
+        return;
+      }
+
+      if (mounted) setChecking(false);
+    }
+
+    checkSession();
+
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      checkSession();
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [router]);
+
+  // Enquanto valida sessão, evita “piscar” a página
+  if (checking) return null;
 
   return (
     <>

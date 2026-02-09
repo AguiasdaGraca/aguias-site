@@ -22,31 +22,30 @@ export default function AdminLogin() {
       return;
     }
 
-    try {
-      setLoading(true);
+try {
+  setLoading(true);
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: cleanPassword,
-      });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: cleanEmail,
+    password: cleanPassword,
+  });
 
-      console.log("LOGIN RESPONSE:", data, error);
+  console.log("LOGIN RESPONSE:", data, error);
 
-      if (error) {
-        alert("Erro Supabase: " + error.message);
-        return;
-      }
-
-      alert("Login com sucesso 🎉");
-      router.push("/admin/dashboard");
-    } catch (err) {
-      console.error("ERRO GRAVE:", err);
-      alert("Erro inesperado 😢");
-    } finally {
-      setLoading(false);
-    }
+  if (error) {
+    alert("Erro Supabase: " + error.message);
+    return;
   }
 
+  alert("Login com sucesso 🎉");
+  router.push("/admin/dashboard");
+  router.refresh(); // força a revalidar a sessão
+} catch (err) {
+  console.error("ERRO GRAVE:", err);
+  alert("Erro inesperado 😳");
+} finally {
+  setLoading(false);
+}
   return (
     <main style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>Área Administrador</h1>
