@@ -12,40 +12,45 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
-    // limpar espaços invisíveis (muito importante!)
     const cleanEmail = email.trim();
     const cleanPassword = password.trim();
 
-    // validações básicas para evitar erros
     if (!cleanEmail || !cleanPassword) {
-      alert("Preenche email e password 🙂");
+      alert("Preenche email e password 😬");
       return;
     }
 
-try {
-  setLoading(true);
+    try {
+      setLoading(true);
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: cleanEmail,
-    password: cleanPassword,
-  });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: cleanPassword,
+      });
 
-  console.log("LOGIN RESPONSE:", data, error);
+      console.log("LOGIN RESPONSE:", data, error);
 
-  if (error) {
-    alert("Erro Supabase: " + error.message);
-    return;
+      if (error) {
+        alert("Erro Supabase: " + error.message);
+        return;
+      }
+
+      alert("Login com sucesso 🎉");
+
+      // 👉 navega para o dashboard
+      router.push("/admin/dashboard");
+
+      // 👉 força o Next a reavaliar layouts/proteções
+      router.refresh();
+
+    } catch (err) {
+      console.error("ERRO GRAVE:", err);
+      alert("Erro inesperado 😵");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  alert("Login com sucesso 🎉");
-  router.push("/admin/dashboard");
-  router.refresh(); // força a revalidar a sessão
-} catch (err) {
-  console.error("ERRO GRAVE:", err);
-  alert("Erro inesperado 😳");
-} finally {
-  setLoading(false);
-}
   return (
     <main style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>Área Administrador</h1>
