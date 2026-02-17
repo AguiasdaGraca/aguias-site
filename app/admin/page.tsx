@@ -16,7 +16,7 @@ export default function AdminLogin() {
     const cleanPassword = password.trim();
 
     if (!cleanEmail || !cleanPassword) {
-      alert("Preenche email e password 🙃");
+      alert("Preenche email e password 🙄");
       return;
     }
 
@@ -35,12 +35,21 @@ export default function AdminLogin() {
         return;
       }
 
+      // ✅ confirma que a sessão existe antes de navegar
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        alert("Login ok, mas sessão ainda não disponível. Tenta outra vez 🙊");
+        return;
+      }
+
+      // (podes deixar ou tirar o alert)
       alert("Login com sucesso 🎉");
-      router.push("/admin/dashboard");
-      router.refresh(); // ✅ força re-render / revalidação
+
+      router.replace("/admin/dashboard");
+      router.refresh(); // força re-render (não faz mal deixar)
     } catch (err) {
       console.error("ERRO GRAVE:", err);
-      alert("Erro inesperado 😵");
+      alert("Erro inesperado 😳");
     } finally {
       setLoading(false);
     }

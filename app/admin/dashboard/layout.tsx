@@ -13,21 +13,35 @@ export default function DashboardLayout({
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const check = async () => {
+    let mounted = true;
+
+    async function checkNow() {
       const { data } = await supabase.auth.getSession();
 
+      if (!mounted) return;
+
       if (!data.session) {
-        router.replace("/admin"); // volta ao login
+        router.replace("/admin");
         return;
       }
 
       setReady(true);
-    };
+    }
 
-    check();
+    checkNow();
+
+    // ✅ se a sessão mudar (login/logout), reage
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) router.replace("/admin");
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, [router]);
 
-  if (!ready) return null;
+  if (!ready) return null; // podes trocar por um loading se quiseres
 
   return <>{children}</>;
 }
