@@ -35,21 +35,22 @@ export default function AdminLogin() {
         return;
       }
 
-      // ✅ confirma que a sessão existe antes de navegar
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        alert("Login ok, mas sessão ainda não disponível. Tenta outra vez 🙊");
+      // 👇 garante que a sessão fica MESMO guardada antes de navegar
+      if (data?.session) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+      } else {
+        alert("Login ok mas sem sessão (estranho).");
         return;
       }
 
-      // (podes deixar ou tirar o alert)
-      alert("Login com sucesso 🎉");
-
       router.replace("/admin/dashboard");
-      router.refresh(); // força re-render (não faz mal deixar)
+      router.refresh();
     } catch (err) {
       console.error("ERRO GRAVE:", err);
-      alert("Erro inesperado 😳");
+      alert("Erro inesperado 😵");
     } finally {
       setLoading(false);
     }
