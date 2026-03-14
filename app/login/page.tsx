@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../lib/client";
 
 export default function LoginPage() {
+
   const router = useRouter();
   const supabase = createClient();
 
@@ -14,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
+
     e.preventDefault();
 
     setErro("");
@@ -30,29 +32,29 @@ export default function LoginPage() {
       return;
     }
 
-    const userId = data.user.id;
-
     const { data: staffUser, error: roleError } = await supabase
       .from("staff_users")
-      .select("*")
-      .eq("id", userId)
+      .select("role")
+      .eq("email", email.toLowerCase())
       .single();
 
     if (roleError || !staffUser) {
-      setErro("Utilizador sem permissões atribuídas.");
+      setErro("Utilizador sem permissões.");
       setLoading(false);
       return;
     }
 
     setLoading(false);
 
+    router.refresh();
+
     if (staffUser.role === "admin") {
-      router.push("/admin/dashboard");
+      router.replace("/admin/dashboard");
       return;
     }
 
     if (staffUser.role === "secretaria") {
-      router.push("/painel/dashboard");
+      router.replace("/painel/dashboard");
       return;
     }
 
@@ -66,7 +68,7 @@ export default function LoginPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#000000",
+        background: "#0f172a",
         fontFamily: "Arial, sans-serif",
         padding: "24px",
       }}
@@ -74,31 +76,20 @@ export default function LoginPage() {
       <div
         style={{
           width: "100%",
-          maxWidth: "440px",
+          maxWidth: "420px",
           background: "#ffffff",
           borderRadius: "24px",
-          padding: "36px 32px",
+          padding: "34px",
           boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
           textAlign: "center",
         }}
       >
-        <img
-          src="/logo.jpg"
-          alt="Águias da Graça FC"
-          style={{
-            width: "74px",
-            height: "74px",
-            objectFit: "contain",
-            marginBottom: "14px",
-          }}
-        />
-
         <h1
           style={{
             margin: 0,
-            fontSize: "42px",
+            fontSize: "36px",
             fontWeight: 800,
-            color: "#000000",
+            color: "#111827",
           }}
         >
           Área Interna
@@ -107,7 +98,7 @@ export default function LoginPage() {
         <p
           style={{
             marginTop: "10px",
-            marginBottom: "28px",
+            marginBottom: "26px",
             color: "#6b7280",
             fontSize: "18px",
           }}
@@ -116,16 +107,17 @@ export default function LoginPage() {
         </p>
 
         <form onSubmit={handleLogin}>
+
           <input
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
             required
+            onChange={(e) => setEmail(e.target.value)}
             style={{
               width: "100%",
-              padding: "14px 16px",
-              marginBottom: "14px",
+              padding: "14px",
+              marginBottom: "12px",
               borderRadius: "12px",
               border: "1px solid #d1d5db",
               fontSize: "16px",
@@ -137,12 +129,12 @@ export default function LoginPage() {
             type="password"
             placeholder="Palavra-passe"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
             required
+            onChange={(e) => setPassword(e.target.value)}
             style={{
               width: "100%",
-              padding: "14px 16px",
-              marginBottom: "14px",
+              padding: "14px",
+              marginBottom: "12px",
               borderRadius: "12px",
               border: "1px solid #d1d5db",
               fontSize: "16px",
@@ -155,8 +147,7 @@ export default function LoginPage() {
               style={{
                 color: "#dc2626",
                 fontSize: "14px",
-                marginTop: "0",
-                marginBottom: "14px",
+                marginBottom: "10px",
                 textAlign: "left",
               }}
             >
@@ -169,18 +160,19 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               width: "100%",
-              padding: "14px 18px",
+              padding: "14px",
               background: "#facc15",
-              color: "#111827",
               border: "none",
               borderRadius: "12px",
               fontWeight: 800,
               fontSize: "18px",
               cursor: "pointer",
+              color: "#111827",
             }}
           >
             {loading ? "A entrar..." : "Entrar"}
           </button>
+
         </form>
       </div>
     </main>

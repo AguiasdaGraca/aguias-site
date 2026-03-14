@@ -1,31 +1,61 @@
-// app/page.tsx
-import Link from "next/link";
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <main style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
-      <div style={{ textAlign: "center" }}>
-        <h1 style={{ fontSize: 48, marginBottom: 10 }}>Área Reservada</h1>
-        <p style={{ opacity: 0.8, marginBottom: 30 }}>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#000000",
+        fontFamily: "Arial, sans-serif",
+        padding: "24px",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          color: "#ffffff",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "64px",
+            margin: 0,
+            fontWeight: 800,
+          }}
+        >
+          Área Reservada
+        </h1>
+
+        <p
+          style={{
+            marginTop: "16px",
+            marginBottom: "28px",
+            fontSize: "22px",
+            color: "#d1d5db",
+          }}
+        >
           Sistema interno de gestão de sócios
         </p>
 
-        <Link href="/admin">
-          <button
-            style={{
-              padding: "14px 28px",
-              fontSize: "16px",
-              borderRadius: "10px",
-              background: "#ffd200",
-              border: "none",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
-          >
-            Entrar
-          </button>
-        </Link>
+        <a
+          href="/login"
+          style={{
+            display: "inline-block",
+            padding: "14px 28px",
+            background: "#facc15",
+            color: "#000000",
+            borderRadius: "12px",
+            textDecoration: "none",
+            fontWeight: 800,
+            fontSize: "18px",
+          }}
+        >
+          Entrar
+        </a>
       </div>
     </main>
   );
 }
+
+

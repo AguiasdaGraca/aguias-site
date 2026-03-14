@@ -1,0 +1,50 @@
+import { createClient } from "../../lib/client";
+import Link from "next/link";
+
+export default async function SociosPage() {
+
+  const supabase = createClient();
+
+  const { data: socios } = await supabase
+    .from("socios")
+    .select("*")
+    .order("n_socio", { ascending: true });
+
+  return (
+    <main style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>Lista de Sócios</h1>
+
+      <table style={{ marginTop: "20px", width: "100%" }}>
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Cartão</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {socios?.map((socio) => (
+            <tr key={socio.id}>
+              <td>{socio.n_socio}</td>
+              <td>{socio.nome}</td>
+              <td>{socio.email}</td>
+              <td>
+                <Link href={`/cartao/${socio.id}`}>
+                  Ver cartão
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div style={{ marginTop: "30px" }}>
+        <Link href="/admin/socios/novo">
+          Criar novo sócio
+        </Link>
+      </div>
+    </main>
+  );
+}
